@@ -25,6 +25,10 @@ jobs:
         run: go mod download
 
       - name: Run unit and integration tests
+        # pilots-ci freshness: every test runs on every sample, as in Sentinel's lane; a restored GOCACHE
+        # would otherwise serve cached test results.
+        env:
+          GOFLAGS: -count=1
         run: go test -race -tags=integration ./...
 
       - name: Build
